@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JOBNEY - Find Your Dream Job</title>
+<style>
+:root{--blue:#0a8fcb;--panel:#dcedf8;--chip:#bfe3f3;--line:#d9dde2;--text:#111;--muted:#555}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text);background:#fff}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+button{font:inherit;cursor:pointer}
+.nav{display:flex;align-items:center;justify-content:space-between;padding:0 4vw;height:72px}
+.logo{font-weight:800;font-size:22px;color:var(--blue)}
+.menu{display:flex;gap:44px}.menu a.on{font-weight:700}
+.auth{display:flex;align-items:center;gap:24px}
+.btn{background:var(--blue);color:#fff;border:0;border-radius:6px;padding:10px 20px}
+.hero{background:#000;color:#fff;text-align:center;padding:48px 4vw 44px}
+.hero h1{margin:0 0 8px;font-size:clamp(28px,4vw,44px)}
+.hero p{margin:0 0 32px;font-size:14px}
+.sbar{display:flex;max-width:820px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden}
+.sbar input,.sbar select{flex:1;min-width:0;border:0;padding:0 18px;height:52px;font:inherit;font-size:14px;color:#333;background:#fff}
+.sbar input+select,.sbar select+select{border-left:1px solid var(--line)}
+.sbar button{border-radius:0;padding:0 28px}
+.recent{margin-top:28px;font-size:14px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;align-items:center}
+.recent button{background:#ddd;border:0;border-radius:4px;font-size:11px;padding:3px 8px}
+.wrap{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:40px;padding:24px 4vw 60px;max-width:1500px;margin:auto}
+.side{background:var(--panel);border-radius:28px;padding:28px 26px;align-self:start}
+.side h3{margin:0 0 18px;font-size:16px}
+.box{background:#fff;border-radius:16px;padding:20px;margin-bottom:22px}
+.box h3{margin-bottom:14px}
+.box label{display:flex;gap:12px;align-items:center;margin:9px 0;font-size:16px}
+.box input[type=checkbox]{width:18px;height:18px;accent-color:var(--blue)}
+.field{width:100%;border:1px solid var(--line);border-radius:10px;padding:14px;font:inherit;font-size:14px;background:#fff}
+.more{color:var(--blue);background:none;border:0;padding:0 0 0 30px;font-size:14px}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:14px}
+input[type=range]{width:100%;accent-color:var(--blue)}
+.apply{padding:6px 24px;border-radius:14px;font-size:13px}
+.tags{display:flex;gap:10px;flex-wrap:wrap}
+.tags button{background:var(--chip);color:var(--blue);border:0;border-radius:6px;padding:6px 14px;font-weight:600;font-size:14px}
+.tags button.on{background:var(--blue);color:#fff}
+.ad{margin-top:32px;border-radius:24px;background:#0c0c0c;color:#fff;padding:32px 28px;min-height:420px;display:flex;flex-direction:column;justify-content:space-between}
+.ad b{font-size:60px;line-height:.95;display:block}.ad em{font-style:normal;font-size:28px;font-weight:700}
+.ad small{color:#7fd84a}.ad p{font-size:12px;margin:6px 0}
+.top{display:flex;justify-content:flex-end;margin-bottom:22px}
+.top select{border:1px solid #222;border-radius:6px;padding:10px 14px;font:inherit;background:#fff}
+.card{position:relative;border:1px solid var(--line);border-radius:18px;padding:24px 34px 22px;margin-bottom:24px;background:#fff}
+.time{display:inline-block;background:var(--chip);color:var(--blue);font-size:12px;padding:5px 14px;border-radius:5px}
+.head{display:flex;gap:14px;align-items:center;margin:8px 0 26px}
+.logo-s{width:56px;height:56px;border-radius:10px;background:#f1f3f5;display:grid;place-items:center;font-weight:800;color:var(--blue)}
+.head h2{margin:0;font-size:24px;font-weight:600}.head span{font-size:13px;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:16px 44px;align-items:center;font-size:14px}
+.meta div{display:flex;gap:8px;align-items:center}.meta svg{width:22px;height:22px;stroke:var(--blue);fill:none;stroke-width:2}
+.meta .btn{margin-left:auto;font-weight:600;font-size:14px}
+.save{position:absolute;top:22px;right:30px;background:none;border:0;padding:0}
+.save svg{width:26px;height:26px;stroke:#222;stroke-width:2;fill:none}.save.on svg{fill:var(--blue);stroke:var(--blue)}
+.empty{text-align:center;padding:60px 0;color:var(--muted)}
+.pager{display:flex;justify-content:center;gap:16px;margin-top:40px}
+.pager button{width:38px;height:38px;border:1px solid #222;background:#fff;border-radius:4px;font-weight:600}
+.pager button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+@media(max-width:900px){.wrap{grid-template-columns:1fr}.menu{display:none}.sbar{flex-direction:column}.sbar input+select,.sbar select+select{border:0;border-top:1px solid var(--line)}.sbar button{height:48px}.meta .btn{margin-left:0}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="logo" href="#">JOBNEY</a>
+  <nav class="menu"><a href="#">Home</a><a class="on" href="#">Job</a><a href="#">Messages</a><a href="#">Profile</a></nav>
+  <div class="auth"><a href="#">Log in</a><button class="btn">Register</button></div>
+</header>
+
+<section class="hero">
+  <h1>Find Your Dream Job Today!</h1>
+  <p>Connecting Talent with Opportunity: Your Gateway to Career Success</p>
+  <div class="sbar">
+    <input id="hq" placeholder="Search jobs" aria-label="Search jobs">
+    <select id="hco" aria-label="Company"><option value="">Company</option></select>
+    <select id="hloc" aria-label="Location"><option value="">Select Location</option></select>
+    <button class="btn" id="hgo">Search job</button>
+  </div>
+  <div class="recent">Recent searches: <button>AI Engineer</button><button>Web Developer</button><button>Product Designer</button></div>
+</section>
+
+<main class="wrap">
+  <aside>
+    <div class="side">
+      <h3>Search by Job Title</h3>
+      <input class="field box" id="q" placeholder="Job Title or Company" style="margin-bottom:22px;padding:18px" aria-label="Job title or company">
+      <div class="box"><h3>Location</h3><select class="field" id="city"><option value="">Choose city</option></select></div>
+      <div class="box" id="fcat"><h3>Job Category</h3></div>
+      <div class="box" id="ftype"><h3>Job Type</h3></div>
+      <div class="box" id="fexp"><h3>Experience Level</h3></div>
+      <h3>Salary</h3>
+      <input type="range" id="sal" min="0" max="100000" step="1000" value="100000" aria-label="Maximum salary">
+      <div class="row"><span id="salv">Salary: 0-100000</span><button class="btn apply" id="apply">Apply</button></div>
+      <h3 style="margin-top:26px">Tags</h3>
+      <div class="tags" id="tags"></div>
+    </div>
+    <div class="ad" role="img" aria-label="We are hiring: Branch Manager, Kochi">
+      <div><em>we are</em><b>HIRING</b></div>
+      <div><p style="font-size:22px;margin:0">Branch</p><em>Manager</em><br><small>To join our team!</small></div>
+      <div><p>Location: Kochi</p><p>Experience preferred 3+ years in EdTech</p><p>Salary 30k - 40k</p><p><b style="font-size:16px;display:inline">vishnu@ipcsglobal.com</b></p></div>
+    </div>
+  </aside>
+
+  <section>
+    <div class="top"><select id="sort" aria-label="Sort jobs"><option value="new">Sort by: Latest</option><option value="hi">Salary: High to Low</option><option value="lo">Salary: Low to High</option></select></div>
+    <div id="list"></div>
+    <div class="pager" id="pager"></div>
+  </section>
+</main>
+
+<script>
+const JOBS=[
+{t:"Assistant Accountant",c:"Khushi Fashion, Magdalla",co:"Khushi Fashion",city:"Surat, Gujarat",cat:"Accounting",type:"Full Time",exp:"Fresher",min:12000,max:25000,ago:10},
+{t:"Graphic Designer",c:"Saaki Argus And Averil Consulting",co:"Saaki Argus",city:"Anna Nagar, Chennai, Tamil Nadu",cat:"Design",type:"Full Time",exp:"Intermediate",min:12000,max:25000,ago:20},
+{t:"Social Media Manager",c:"Creatox Design",co:"Creatox Design",city:"Kannur District, Kerala",cat:"Marketing",type:"Full Time",exp:"Intermediate",min:12000,max:25000,ago:10},
+{t:"Tally Accountant",c:"Kaushalya Tools",co:"Kaushalya Tools",city:"Anna Nagar, Chennai, Tamil Nadu",cat:"Accounting",type:"Full Time",exp:"Fresher",min:12000,max:25000,ago:10},
+{t:"Tally Accountant",c:"Kaushalya Tools",co:"Kaushalya Tools",city:"Anna Nagar, Chennai, Tamil Nadu",cat:"Accounting",type:"Part Time",exp:"Fresher",min:12000,max:25000,ago:10},
+{t:"Tally Accountant",c:"Kaushalya Tools",co:"Kaushalya Tools",city:"Anna Nagar, Chennai, Tamil Nadu",cat:"Accounting",type:"Contract",exp:"Non-experience",min:12000,max:25000,ago:10},
+{t:"UI/UX Designer",c:"Pixel Nest",co:"Pixel Nest",city:"Kozhikode, Kerala",cat:"Design",type:"Full Time",exp:"Intermediate",min:25000,max:45000,ago:30},
+{t:"Software Engineer",c:"Nimbus Labs",co:"Nimbus Labs",city:"Kochi, Kerala",cat:"IT & Software",type:"Full Time",exp:"Expert",min:40000,max:80000,ago:45}
+];
+const PAGE=6, S={page:1,cat:[],type:[],exp:[],tag:null,sal:100000,saved:new Set()};
+const $=id=>document.getElementById(id);
+const uniq=k=>[...new Set(JOBS.map(j=>j[k]))];
+const icon={
+ clock:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ card:'<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>',
+ pin:'<svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>',
+ mark:'<svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>'};
+
+function checks(id,key,vals){
+  const box=$(id);
+  vals.forEach(v=>{
+    const l=document.createElement('label');
+    l.innerHTML='<input type="checkbox" value="'+v+'"> '+v;
+    l.firstChild.onchange=e=>{const a=S[key];e.target.checked?a.push(v):a.splice(a.indexOf(v),1);S.page=1;render()};
+    box.appendChild(l);
+  });
+}
+checks('fcat','cat',uniq('cat'));checks('ftype','type',["Full Time","Part Time","Contract","Internship"]);
+checks('fexp','exp',["Non-experience","Fresher","Intermediate","Expert"]);
+[['city',uniq('city')],['hloc',uniq('city')],['hco',uniq('co')]].forEach(([id,vals])=>vals.forEach(v=>$(id).add(new Option(v,v))));
+["UI/UX","Engineer","Marketing"].forEach(t=>{
+  const b=document.createElement('button');b.textContent=t;
+  b.onclick=()=>{S.tag=S.tag===t?null:t;[...$('tags').children].forEach(x=>x.classList.toggle('on',x.textContent===S.tag));S.page=1;render()};
+  $('tags').appendChild(b);
+});
+
+$('sal').oninput=e=>$('salv').textContent='Salary: 0-'+e.target.value;
+$('apply').onclick=()=>{S.sal=+$('sal').value;S.page=1;render()};
+$('hgo').onclick=()=>{$('q').value=$('hq').value;$('city').value=$('hloc').value;S.page=1;render();$('list').scrollIntoView({behavior:'smooth'})};
+['q','city','sort'].forEach(id=>$(id).oninput=()=>{S.page=1;render()});
+document.querySelectorAll('.recent button').forEach(b=>b.onclick=()=>{$('q').value=b.textContent;S.page=1;render()});
+
+function filtered(){
+  const q=$('q').value.trim().toLowerCase(), city=$('city').value, co=$('hco').value;
+  let r=JOBS.filter(j=>
+    (!q||(j.t+' '+j.c).toLowerCase().includes(q))&&(!city||j.city===city)&&(!co||j.co===co)&&
+    (!S.cat.length||S.cat.includes(j.cat))&&(!S.type.length||S.type.includes(j.type))&&
+    (!S.exp.length||S.exp.includes(j.exp))&&j.min<=S.sal&&
+    (!S.tag||j.t.toLowerCase().includes(S.tag.toLowerCase())||j.cat.toLowerCase().includes(S.tag.toLowerCase())));
+  const s=$('sort').value;
+  return r.sort((a,b)=>s==='hi'?b.max-a.max:s==='lo'?a.min-b.min:a.ago-b.ago);
+}
+function render(){
+  const r=filtered(), pages=Math.max(1,Math.ceil(r.length/PAGE));
+  S.page=Math.min(S.page,pages);
+  const items=r.slice((S.page-1)*PAGE,S.page*PAGE);
+  $('list').innerHTML=items.length?items.map(j=>{
+    const id=JOBS.indexOf(j), init=j.co.split(' ').map(w=>w[0]).join('').slice(0,2);
+    return '<article class="card"><span class="time">'+j.ago+' min ago</span>'+
+    '<button class="save'+(S.saved.has(id)?' on':'')+'" data-id="'+id+'" aria-label="Save job">'+icon.mark+'</button>'+
+    '<div class="head"><div class="logo-s">'+init+'</div><div><h2>'+j.t+'</h2><span>'+j.c+'</span></div></div>'+
+    '<div class="meta"><div>'+icon.clock+j.type+'</div><div>'+icon.card+j.min+'-'+j.max+'</div><div>'+icon.pin+j.city+'</div>'+
+    '<a class="btn" href="#">Job Details</a></div></article>';
+  }).join(''):'<div class="empty"><b>No jobs match these filters.</b><br>Try removing a filter or searching a different title.</div>';
+  $('pager').innerHTML=pages>1?Array.from({length:pages},(_,i)=>'<button class="'+(i+1===S.page?'on':'')+'" data-p="'+(i+1)+'">'+(i+1)+'</button>').join(''):'';
+}
+document.addEventListener('click',e=>{
+  const s=e.target.closest('.save'),p=e.target.closest('[data-p]');
+  if(s){const id=+s.dataset.id;S.saved.has(id)?S.saved.delete(id):S.saved.add(id);s.classList.toggle('on')}
+  if(p){S.page=+p.dataset.p;render();$('list').scrollIntoView({behavior:'smooth'})}
+});
+render();
+</script>
+</body>
+</html>
